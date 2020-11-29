@@ -227,23 +227,10 @@ public class ProfileViewController implements Initializable {
     @FXML
     void quit(ActionEvent event) { // closes the whole app
         
-//        Stage profileView = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        profileView.close();
         Platform.exit();
 
     }
     
-    public void initData(Usermodel user) { 
-        
-        idBox.setText("" + user.getId());
-        nameBox.setText(user.getName());
-        heightBox.setText(user.getHeight());
-        weightBox.setText("" + user.getWeight());
-        ageBox.setText("" + user.getAge());
-        
-        calculateBMI(user.getHeight(), user.getWeight());
-               
-    }
     
     public void calculateBMI(String height, Double weight) { // fix cancel on the uodate account
 
@@ -294,6 +281,18 @@ public class ProfileViewController implements Initializable {
             bmiStatus.setText("Obese");
         }
               
+    }
+    
+     public void initData(Usermodel user) {  // initial data when the page is opened. 
+        
+        idBox.setText("" + user.getId());
+        nameBox.setText(user.getName());
+        heightBox.setText(user.getHeight());
+        weightBox.setText("" + user.getWeight());
+        ageBox.setText("" + user.getAge());
+        
+        calculateBMI(user.getHeight(), user.getWeight());
+               
     }
     
     /**

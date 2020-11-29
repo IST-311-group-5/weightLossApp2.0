@@ -97,16 +97,12 @@ public class LogInViewController implements Initializable {
         } else {
 
             int intUserID = Integer.parseInt(userid);
-            readByIDAndName(intUserID, username); 
-            
-            Stage logInView = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            logInView.close();
-            
-           
+            readByIDAndName(intUserID, username, event); 
+
         }
 
     }
-    public void readByIDAndName (int id, String name){ // pulls all the info from the db. 
+    public void readByIDAndName (int id, String name, ActionEvent event){ // pulls all the info from the db. 
         Query query = manager.createNamedQuery("Usermodel.readByNameAndId");
 
         try {
@@ -126,6 +122,10 @@ public class LogInViewController implements Initializable {
         ProfileViewController profileControllerView = loader.getController();
            
         profileControllerView.initData(user);
+        
+        Stage logInView = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        
+            logInView.close();
 
             Stage stage = new Stage();
             stage.setScene(tableViewScene);
