@@ -27,7 +27,6 @@ import javax.persistence.Query;
 /**
  * FXML Controller class
  *
- * @author daltonream
  */
 public class LogInViewController implements Initializable {
     EntityManager manager;

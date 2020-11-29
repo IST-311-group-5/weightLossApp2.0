@@ -117,11 +117,9 @@ public class DetailedModelViewController implements Initializable {
             user.setHeight(height);
             user.setWeight(userWeight);
             user.setAge(userAge);
+
             
-            Stage createAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            createAccount.close();  
-            
-            create(user);
+            create(user, event);
         
          } catch (Exception e) {
          
@@ -135,7 +133,7 @@ public class DetailedModelViewController implements Initializable {
 
     }
     
-    public void create(Usermodel user) { //goes along with 'CreateAccount' method
+    public void create(Usermodel user, ActionEvent event) { //goes along with 'CreateAccount' method
         System.out.println(user.getName());
         try {
             manager.getTransaction().begin();
@@ -158,6 +156,9 @@ public class DetailedModelViewController implements Initializable {
 
                 Stage stage = new Stage();
                 stage.setScene(newScene);
+                
+                 Stage createAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                 createAccount.close(); 
                 
 
                 stage.show();
