@@ -201,7 +201,7 @@ public class UpdateAccountController implements Initializable {
     
     public void initData(Usermodel user) {
 
-        updateID.setText("1");
+        updateID.setText("" + user.getId());
         nameField.setText(user.getName());
         heightField.setText(user.getHeight());
         weightField.setText("" +user.getWeight());
