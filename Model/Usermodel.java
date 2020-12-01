@@ -1,8 +1,9 @@
- /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/*
+ * Weightloss App
+ * Group 5 
+ * IST 311
  */
+
 package Model;
 
 import java.io.Serializable;
