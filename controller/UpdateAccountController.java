@@ -206,7 +206,7 @@ public class UpdateAccountController implements Initializable {
         heightField.setText(user.getHeight());
         weightField.setText("" +user.getWeight());
         ageField.setText("" + user.getAge());
-        
+
     }
     
     /**
