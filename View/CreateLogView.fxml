@@ -2,148 +2,49 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="948.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateLogViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="685.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateLogViewController">
    <children>
-      <TextField fx:id="logNumberField" layoutX="164.0" layoutY="193.0" prefHeight="44.0" prefWidth="342.0" promptText="Log Entry Number">
+      <TextField fx:id="logDateField" layoutX="201.0" layoutY="234.0" prefHeight="44.0" prefWidth="352.0" promptText="xx/xx/xxxx">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="logDateField" layoutX="164.0" layoutY="258.0" prefHeight="44.0" prefWidth="342.0" promptText="xx/xx/xxxx">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </TextField>
-      <Text layoutX="34.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create/Update Log">
+      <Text layoutX="25.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create/Update Log">
          <font>
             <Font size="45.0" />
          </font>
       </Text>
-      <Label layoutX="89.0" layoutY="203.0" text="Log #:">
+      <Label layoutX="140.0" layoutY="241.0" text="Date:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="93.0" layoutY="268.0" text="Date:">
+      <Label layoutX="72.0" layoutY="300.0" text="Log Content:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <GridPane disable="true" gridLinesVisible="true" layoutX="91.0" layoutY="687.0" prefHeight="173.0" prefWidth="443.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="88.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="99.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="262.0" minWidth="10.0" prefWidth="81.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Text layoutX="7.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Breakfast">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <children>
-                  <Text layoutX="6.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lunch">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
-               <children>
-                  <Text layoutX="5.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dinner">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
-               <children>
-                  <Text layoutX="6.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snack 1">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4">
-               <children>
-                  <Text layoutX="6.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Snack 2">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-         </children>
-      </GridPane>
-      <Text layoutX="133.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type" textAlignment="CENTER">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Text>
-      <Text layoutX="280.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Food" textAlignment="CENTER">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Text>
-      <Text layoutX="421.0" layoutY="675.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calories" textAlignment="CENTER">
-         <font>
-            <Font size="22.0" />
-         </font>
-      </Text>
-      <Text layoutX="251.0" layoutY="603.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Info">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Label layoutX="36.0" layoutY="332.0" text="Log Content:">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <TextArea fx:id="logContentField" layoutX="164.0" layoutY="332.0" prefHeight="200.0" prefWidth="342.0" promptText="Log Entry Content">
+      <TextArea fx:id="logContentField" layoutX="201.0" layoutY="300.0" prefHeight="293.0" prefWidth="352.0" promptText="Log Entry Content" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>
       </TextArea>
-      <Separator layoutX="68.0" layoutY="555.0" prefHeight="3.0" prefWidth="491.0" />
-      <Text layoutX="244.0" layoutY="627.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Track Your Diet Here" />
-      <Text layoutX="258.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Log Entry">
+      <Text layoutX="315.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Log Entry">
          <font>
             <Font size="30.0" />
          </font>
       </Text>
-      <Text layoutX="247.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Record Your Day Here" />
-      <Button fx:id="saveLogButton" layoutX="550.0" layoutY="894.0" mnemonicParsing="false" onAction="#saveLog" text="Save" />
-      <Button fx:id="cancelLogButton" layoutX="25.0" layoutY="894.0" mnemonicParsing="false" onAction="#cancelLog" text="Cancel" />
+      <Button fx:id="saveLogButton" layoutX="650.0" layoutY="634.0" mnemonicParsing="false" onAction="#saveLog" text="Save" />
+      <Button fx:id="cancelLogButton" layoutX="573.0" layoutY="634.0" mnemonicParsing="false" onAction="#cancelLog" text="Cancel" />
+      <Label layoutX="483.0" layoutY="43.0" text="Username:" />
+      <Label layoutX="535.0" layoutY="84.0" text="ID:" />
+      <TextField fx:id="nameTextBox" editable="false" layoutX="561.0" layoutY="38.0" prefHeight="31.0" prefWidth="152.0" />
+      <TextField fx:id="idTextBox" editable="false" layoutX="561.0" layoutY="79.0" prefHeight="31.0" prefWidth="152.0" />
    </children>
 </AnchorPane>
