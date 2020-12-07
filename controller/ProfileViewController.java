@@ -4,11 +4,16 @@
  * IST 311
  */
 package Controller;
+
+import Model.Logmodel;
 import Model.Usermodel;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,41 +21,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-/**
- * FXML Controller class
- *
- */
-
 public class ProfileViewController implements Initializable {
-    
-    EntityManager manager;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
     @FXML
     private Button viewLogButton;
 
     @FXML
     private Button createLogButton;
-    
+
     @FXML
     private TextField idBox;
-    
+
     @FXML
     private TextField nameBox;
 
@@ -73,97 +66,90 @@ public class ProfileViewController implements Initializable {
     private TextField bmiStatus;
 
     @FXML
-    private TableView<?> logsTable;
+    private TableView<Logmodel> logsTable;
 
     @FXML
-    private TableColumn<?, ?> logID;
+    private TableColumn<Logmodel, String> logDate;
 
     @FXML
-    private TableColumn<?, ?> logDate;
+    private TableColumn<Logmodel, String> logPreview;
 
-    @FXML
-    private TableColumn<?, ?> logPreview;
-    
     @FXML
     private Button updateInfo;
-    
+
     @FXML
     private Button logOut;
 
     @FXML
     private Button quit;
+        
+    private ObservableList<Logmodel> logData;
     
+    EntityManager manager;
+
     Scene previousScene;
 
-
+   /**
+    * 
+    * @param url
+    * @param rb 
+    */
+    @Override
     @FXML
-    void createLog(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CreateLogView.fxml"));
+    public void initialize(URL url, ResourceBundle rb) {
+        manager = (EntityManager) Persistence.createEntityManagerFactory("WeightLossAppFXMLPU").createEntityManager();
 
-        Parent detailedModelView = loader.load();
-
-        Scene tableViewScene = new Scene(detailedModelView);
-
-        CreateLogViewController newLogController = loader.getController();
-
-        Stage stage = new Stage();
-        stage.setScene(tableViewScene);
-        stage.show();
-
-    }
-    
-    public void setPreviousScene(Scene scene) {
-        previousScene = scene;
-
-    }
-
-    @FXML
-    void viewLog(ActionEvent event) {
-        System.out.println("You are a twinkie");
-
-    }
-    
-    @FXML
-    void idBox(ActionEvent event) {
-
-    }
-    
-      @FXML
-    void ageBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void bmiBox() {
-
-    }
-
-    @FXML
-    void bmiStatus(ActionEvent event) {
-
-    }
-
-    @FXML
-    void heightBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void nameBox(ActionEvent event) {
-
-    }
-    
-    @FXML
-    void weightBox(ActionEvent event) {
-
-    }
-    
-    @FXML
-    void updateInfo(ActionEvent event) throws IOException { //opens up the update info page. 
+        //Set the cell values for the 'Collection of Logs' Table
+        logDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        logPreview.setCellValueFactory(new PropertyValueFactory<>("Content"));
+        logsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);       
                 
-        Usermodel user = new Usermodel();
+        assert nameBox != null : "fx:id=\"nameBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert heightBox != null : "fx:id=\"heightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert weightBox != null : "fx:id=\"weightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert goalsBox != null : "fx:id=\"goalsBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert ageBox != null : "fx:id=\"ageBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert bmiBox != null : "fx:id=\"bmiBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert bmiStatus != null : "fx:id=\"bmiStatus\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert logsTable != null : "fx:id=\"logsTable\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert logDate != null : "fx:id=\"logDate\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert logPreview != null : "fx:id=\"logPreview\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert viewLogButton != null : "fx:id=\"viewLogButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert createLogButton != null : "fx:id=\"createLogButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert updateInfo != null : "fx:id=\"updateInfo\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert idBox != null : "fx:id=\"idBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert logOut != null : "fx:id=\"logOut\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert quit != null : "fx:id=\"quit\" was not injected: check your FXML file 'ProfileView.fxml'.";
+    }
+    
+    /**
+     * 
+     * @param user 
+     */ 
+    public void initData(Usermodel user) { 
+        idBox.setText("" + user.getId());
+        nameBox.setText(user.getName());
+        heightBox.setText(user.getHeight());
+        weightBox.setText("" + user.getWeight());
+        ageBox.setText("" + user.getAge());
+
+        calculateBMI(user.getHeight(), user.getWeight());
         
-        String id = idBox.getText();        
+        refreshTable();
+    }
+
+    /********************************Button Operations********************************/
+    
+    /**
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void updateInfo(ActionEvent event) throws IOException { 
+        Usermodel user = new Usermodel();
+
+        String id = idBox.getText();
         int intUserID = Integer.parseInt(id);
 
         String name = nameBox.getText();
@@ -181,10 +167,8 @@ public class ProfileViewController implements Initializable {
         user.setHeight(height);
         user.setWeight(userWeight);
         user.setAge(userAge);
-        
-    //------------------Close the profile page and update account------------------  
 
-        
+        //------------------Close the profile page and update account------------------  
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/UpdateInfoView.fxml"));
 
         Parent profileView = loader.load();
@@ -197,50 +181,121 @@ public class ProfileViewController implements Initializable {
 
         Stage stage = new Stage();
         stage.setScene(newScene);
-        
+
         Stage closeAccountInfo = (Stage) ((Node) event.getSource()).getScene().getWindow();
         closeAccountInfo.close();
-              
 
         stage.show();
-
     }
-    
+
+    /**
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    void logOut(ActionEvent event) throws IOException { // it means what is says
-        
+    void logOut(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LogInView.fxml"));
 
         Parent logIn = loader.load();
 
         Scene logInScene = new Scene(logIn);
-        
+
         Stage profileView = (Stage) ((Node) event.getSource()).getScene().getWindow();
         profileView.close();
 
         Stage stage = new Stage();
         stage.setScene(logInScene);
         stage.show();
-
     }
-    
+
+    /**
+     * 
+     * @param event 
+     */
     @FXML
-    void quit(ActionEvent event) { // closes the whole app
-        
+    void quit(ActionEvent event) {
         Platform.exit();
-
     }
     
-    
-    public void calculateBMI(String height, Double weight) { // fix cancel on the uodate account
+    /**
+     * Opens CreateLogView
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void createLog(ActionEvent event) throws IOException {
+        Usermodel user = userQuery();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CreateLogView.fxml"));
+            Parent createLogView = loader.load();
 
+            Scene createLogScene = new Scene(createLogView);
+
+            CreateLogViewController controller = loader.getController();
+            controller.initData(user);
+            
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            controller.setPreviousScene(currentScene);
+
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(createLogScene);
+            stage.show();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    /**
+     * Opens LogView
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void viewLog(ActionEvent event) throws IOException {
+        Logmodel selectedLog = logsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedLog != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LogView.fxml"));
+            Parent detailedLogView = loader.load();
+
+            Scene logViewScene = new Scene(detailedLogView);
+
+            LogViewController controller = loader.getController();
+            controller.initData(selectedLog);
+            
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            controller.setPreviousScene(currentScene);
+
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(logViewScene);
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog Box");
+            alert.setHeaderText("No log selected.");
+            alert.setContentText("Please select a log you would like to view.");
+            alert.showAndWait();
+        }       
+    }
+
+    /**********************************Helper Methods***********************************/
+
+    /**
+     * 
+     * @param height
+     * @param weight 
+     */
+     public void calculateBMI(String height, Double weight) {
         int userFeet;
         int userInches;
 
-        if(heightBox.getText().length() == 4){
+        if (heightBox.getText().length() == 4) {
 
-            String feet = heightBox.getText().substring(0,1);
-            String inches = heightBox.getText().substring(2,3);
+            String feet = heightBox.getText().substring(0, 1);
+            String inches = heightBox.getText().substring(2, 3);
 
             userFeet = Integer.parseInt(feet);
             userInches = Integer.parseInt(inches);
@@ -252,10 +307,10 @@ public class ProfileViewController implements Initializable {
             bmiBox.setText(stringBmi);
             getBMICategory(bmi);
 
-        } else if (heightBox.getText().length() == 5){
+        } else if (heightBox.getText().length() == 5) {
 
-            String feet = heightBox.getText().substring(0,1);
-            String inches = heightBox.getText().substring(2,4);
+            String feet = heightBox.getText().substring(0, 1);
+            String inches = heightBox.getText().substring(2, 4);
 
             userFeet = Integer.parseInt(feet);
             userInches = Integer.parseInt(inches);
@@ -263,62 +318,121 @@ public class ProfileViewController implements Initializable {
             int heightInInches = (userFeet * 12) + userInches;
             Double bmi = (weight * 703) / (heightInInches * heightInInches);
             String stringBmi = String.format("%.2f", bmi);
-            
-            bmiBox.setText(stringBmi);  
+
+            bmiBox.setText(stringBmi);
             getBMICategory(bmi);
         }
-
     }
-    public void getBMICategory(Double bmi) { 
-        
+
+   /**
+    * 
+    * @param bmi 
+    */
+    public void getBMICategory(Double bmi) {
+
         if (bmi <= 18.5) {
             bmiStatus.setText("Underweight");
         } else if (bmi < 25) {
             bmiStatus.setText("Normal Weight");
         } else if (bmi < 30) {
             bmiStatus.setText("Overweight");
-        } else{
+        } else {
             bmiStatus.setText("Obese");
         }
-              
-    }
-    
-     public void initData(Usermodel user) {  // initial data when the page is opened. 
-        
-        idBox.setText("" + user.getId());
-        nameBox.setText(user.getName());
-        heightBox.setText(user.getHeight());
-        weightBox.setText("" + user.getWeight());
-        ageBox.setText("" + user.getAge());
-        
-        calculateBMI(user.getHeight(), user.getWeight());
-               
+    }    
+
+   /**
+    * 
+    */
+    public void refreshTable() {
+        Integer userId = Integer.parseInt(idBox.getText());
+        List<Logmodel> logs = readLogByUserId(userId);
+        setTableData(logs);
     }
     
     /**
-     * Initializes the controller class.
+     * 
+     * @param logList 
      */
+    private void setTableData(List<Logmodel> logList) {
+        logData = FXCollections.observableArrayList();
+
+        logList.forEach(s -> {
+            logData.add(s);
+        });
+
+        logsTable.setItems(logData);
+        logsTable.refresh();
+    }
+
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    private List<Logmodel> readLogByUserId(Integer id){
+        Query query = manager.createNamedQuery("Logmodel.findByUserid");
+        query.setParameter("userid", id);
+        List<Logmodel> logs = query.getResultList();
+
+        return logs;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    private Usermodel userQuery() {
+        Query query = manager.createNamedQuery("Usermodel.findById");
+        query.setParameter("id", Integer.parseInt(idBox.getText()));
+        Usermodel user = (Usermodel) query.getSingleResult();
+
+        return user;
+    }
+
+    /**
+     * 
+     * @param scene 
+     */
+    public void setPreviousScene(Scene scene) {
+        previousScene = scene;
+    }
+    
+    /************************Apparently We Need These**********************************/
+    
     @FXML
-    public void initialize(URL url, ResourceBundle rb) {
-        assert nameBox != null : "fx:id=\"nameBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert heightBox != null : "fx:id=\"heightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert weightBox != null : "fx:id=\"weightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert goalsBox != null : "fx:id=\"goalsBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert ageBox != null : "fx:id=\"ageBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert bmiBox != null : "fx:id=\"bmiBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert bmiStatus != null : "fx:id=\"bmiStatus\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert logsTable != null : "fx:id=\"logsTable\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert logID != null : "fx:id=\"logID\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert logDate != null : "fx:id=\"logDate\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert logPreview != null : "fx:id=\"logPreview\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert viewLogButton != null : "fx:id=\"viewLogButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert createLogButton != null : "fx:id=\"createLogButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert updateInfo != null : "fx:id=\"updateInfo\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert idBox != null : "fx:id=\"idBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert logOut != null : "fx:id=\"logOut\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert quit != null : "fx:id=\"quit\" was not injected: check your FXML file 'ProfileView.fxml'.";
+    void ageBox(ActionEvent event) {
 
     }
-   
 
+    @FXML
+    void bmiBox(ActionEvent event) {
+
+    }
+
+    @FXML
+    void bmiStatus(ActionEvent event) {
+
+    }
+
+    @FXML
+    void heightBox(ActionEvent event) {
+
+    }
+
+    @FXML
+    void idBox(ActionEvent event) {
+
+    }
+
+    @FXML
+    void nameBox(ActionEvent event) {
+
+    }
+  
+    @FXML
+    void weightBox(ActionEvent event) {
+
+    }
+    
 }
