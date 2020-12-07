@@ -1,7 +1,7 @@
 /*
- * Weightloss App
- * Group 5 
- * IST 311
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package Model;
 
@@ -26,26 +26,37 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Logmodel.findAll", query = "SELECT l FROM Logmodel l")
     , @NamedQuery(name = "Logmodel.findById", query = "SELECT l FROM Logmodel l WHERE l.id = :id")
     , @NamedQuery(name = "Logmodel.findByDate", query = "SELECT l FROM Logmodel l WHERE l.date = :date")
-    , @NamedQuery(name = "Logmodel.findByContent", query = "SELECT l FROM Logmodel l WHERE l.content = :content")})
+    , @NamedQuery(name = "Logmodel.findByContent", query = "SELECT l FROM Logmodel l WHERE l.content = :content")
+    , @NamedQuery(name = "Logmodel.findByUserid", query = "SELECT l FROM Logmodel l WHERE l.userid = :userid")
+    , @NamedQuery(name = "Logmodel.countEntries", query = "SELECT COUNT(numLogs) FROM Logmodel numLogs")})
 
 public class Logmodel implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "DATE")
     private String date;
+    @Basic(optional = false)
     @Column(name = "CONTENT")
     private String content;
+    @Column(name = "USERID")
+    private Integer userid;
 
     public Logmodel() {
     }
 
     public Logmodel(Integer id) {
         this.id = id;
+    }
+
+    public Logmodel(Integer id, String date, String content) {
+        this.id = id;
+        this.date = date;
+        this.content = content;
     }
 
     public Integer getId() {
@@ -72,6 +83,14 @@ public class Logmodel implements Serializable {
         this.content = content;
     }
 
+    public Integer getUserId() {
+        return userid;
+    }
+
+    public void setUserId(Integer userid) {
+        this.userid = userid;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -96,5 +115,5 @@ public class Logmodel implements Serializable {
     public String toString() {
         return "Model.Logmodel[ id=" + id + " ]";
     }
-
+    
 }
