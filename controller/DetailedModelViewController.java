@@ -5,7 +5,6 @@
  */
 package Controller;
 
-
 import Model.Usermodel;
 import java.io.IOException;
 import java.net.URL;
@@ -20,15 +19,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 public class DetailedModelViewController implements Initializable {
 
-      @FXML
+    @FXML
     private TextField idField;
 
     @FXML
@@ -46,56 +43,52 @@ public class DetailedModelViewController implements Initializable {
     @FXML
     private Button backButton;
 
-    @FXML
-    private Button createAccount;
-
-    @FXML
-    private Button cancel;
-    
-    Usermodel selectedUser;
-
     Scene previousScene;
+    
     EntityManager manager;
 
-    @FXML
-    void goBack(ActionEvent event) {
-        
-       Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        
-        if (previousScene != null) {
-            stage.setScene(previousScene);
-        }
-    } 
+    /**
+     * 
+     * @param url
+     * @param rb 
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        manager = (EntityManager) Persistence.createEntityManagerFactory("WeightLossAppFXMLPU").createEntityManager();
 
-    public void setPreviousScene(Scene scene) {
-        previousScene = scene;
+        assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert nameField != null : "fx:id=\"nameField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert heightField != null : "fx:id=\"heightField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert weightField != null : "fx:id=\"weightField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert ageField != null : "fx:id=\"ageField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+        assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
+
         backButton.setDisable(false);
     }
     
+    /*******************************Button Operations************************************/
+    
+    /**
+     * 
+     * @param event 
+     */
     @FXML
-    void cancel(ActionEvent event) throws IOException { //goes back to log in page
-        
-        Stage createAccountView = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        createAccountView.close();  
-        
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LogInView.fxml"));
+    void goBack(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        Parent detailedModelView = loader.load();
-        
-        Scene tableViewScene = new Scene(detailedModelView);
-
-        Stage stage = new Stage();
-        stage.setScene(tableViewScene);
-
-        stage.show();
-
+        if (previousScene != null) {
+            stage.setScene(previousScene);
+        }
     }
-
+    
+    /**
+     * Create an account and then render the profile page
+     * 
+     * @param event 
+     */
     @FXML
-    void createAccount(ActionEvent event) { // creating account then when created it brings to profile page
-        
+    void createAccount(ActionEvent event) {
         try {
-            
             String id = idField.getText();
             int intUserID = Integer.parseInt(id);
 
@@ -109,7 +102,6 @@ public class DetailedModelViewController implements Initializable {
             String age = ageField.getText();
             int userAge = Integer.parseInt(age);
 
-
             Usermodel user = new Usermodel();
 
             user.setId(intUserID);
@@ -118,32 +110,66 @@ public class DetailedModelViewController implements Initializable {
             user.setWeight(userWeight);
             user.setAge(userAge);
 
-            
             create(user, event);
-        
-         } catch (Exception e) {
-         
+        } catch (Exception e) {
             System.out.println(e);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Fields left blank");
             alert.setHeaderText("Please fill in all the fields");
-            alert.showAndWait(); 
-         
-         }
-
+            alert.showAndWait();
+        }
     }
     
-    public void create(Usermodel user, ActionEvent event) { //goes along with 'CreateAccount' method
+    /**
+     * Go back to log in page
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void cancel(ActionEvent event) throws IOException {
+        Stage createAccountView = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        createAccountView.close();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/LogInView.fxml"));
+
+        Parent detailedModelView = loader.load();
+
+        Scene tableViewScene = new Scene(detailedModelView);
+
+        Stage stage = new Stage();
+        stage.setScene(tableViewScene);
+
+        stage.show();
+    }
+
+    /**********************************Helper Methods**************************************/
+    
+    /**
+     * 
+     * @param scene 
+     */
+    public void setPreviousScene(Scene scene) {
+        previousScene = scene;
+        backButton.setDisable(false);
+    }
+
+    /**
+     * 
+     * @param user
+     * @param event 
+     */
+    public void create(Usermodel user, ActionEvent event) {
         System.out.println(user.getName());
         try {
             manager.getTransaction().begin();
-            
+
             if (user.getId() != null) {
 
                 manager.persist(user);
 
-                manager.getTransaction().commit(); 
-                
+                manager.getTransaction().commit();
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileView.fxml"));
 
                 Parent profileView = loader.load();
@@ -156,62 +182,22 @@ public class DetailedModelViewController implements Initializable {
 
                 Stage stage = new Stage();
                 stage.setScene(newScene);
-                
-                 Stage createAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                 createAccount.close(); 
-                
+
+                Stage createAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                createAccount.close();
 
                 stage.show();
-   
             }
-
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-                         
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("User ID already used");
             alert.setHeaderText("The Entered ID is already used");
             alert.setContentText("Please Enter a different ID"); // figure out how to show next avilable ID
             alert.showAndWait();
-            
+
         }
     }
-
-
-    @FXML
-    private void idFeild(ActionEvent event) {
-    }
-
-    @FXML
-    private void nameField(ActionEvent event) {
-    }
-
-    @FXML
-    private void heightField(ActionEvent event) {
-    }
-
-    @FXML
-    private void weightField(ActionEvent event) {
-    }
-
-    @FXML
-    private void updateAge(ActionEvent event) {
-    }
-    
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        manager = (EntityManager) Persistence.createEntityManagerFactory("WeightLossAppFXMLPU").createEntityManager();
-        
-        assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        assert nameField != null : "fx:id=\"nameField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        assert heightField != null : "fx:id=\"heightField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        assert weightField != null : "fx:id=\"weightField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        assert ageField != null : "fx:id=\"ageField\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'DetailedModelView.fxml'.";
-        
-        backButton.setDisable(false);
-    }
-
 }
