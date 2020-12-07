@@ -5,7 +5,6 @@
  */
 package Controller;
 
-import Model.Mealmodel;
 import Model.Usermodel;
 import java.io.IOException;
 import java.net.URL;
@@ -24,12 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-/**
- * FXML Controller class
- *
- */
 public class UpdateAccountController implements Initializable {
-
     @FXML
     private TextField updateID;
     
@@ -56,42 +50,62 @@ public class UpdateAccountController implements Initializable {
     
     EntityManager manager;
 
-   
-    @FXML
-    void nameField(ActionEvent event) {
-    }
+    /**
+     * 
+     * @param url
+     * @param rb 
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        manager = (EntityManager) Persistence.createEntityManagerFactory("WeightLossAppFXMLPU").createEntityManager();
 
-    @FXML
-    void heightField(ActionEvent event) {
-    }
-
-    @FXML
-     void weightField(ActionEvent event) {
-    }
-
-    @FXML
-    void ageField(ActionEvent event) {
-    }
+        assert nameField != null : "fx:id=\"nameField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert heightField != null : "fx:id=\"heightField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert weightField != null : "fx:id=\"weightField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert ageField != null : "fx:id=\"ageField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert updateAccount != null : "fx:id=\"createAccount\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+        assert cancel != null : "fx:id=\"cancel\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
+    }  
     
-    @FXML
-    void updateID(ActionEvent event) {
+    /**
+     * 
+     * @param user 
+     */
+    public void initData(Usermodel user) {
+        updateID.setText("" + user.getId());
+        nameField.setText(user.getName());
+        heightField.setText(user.getHeight());
+        weightField.setText("" + user.getWeight());
+        ageField.setText("" + user.getAge());
 
-    }
-
+    }   
+    
+    /********************************Button Operations********************************/
+    
+    /**
+     * Brings back profileView with all data
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    void goBack(ActionEvent event) throws IOException { // brings back profile view with all data. 
+    void goBack(ActionEvent event) throws IOException {
         Stage updateAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
         updateAccount.close();  
         
         orginalState(event); 
     }
 
+    /**
+     * Grabs all the info from the update page
+     * and reloads the profileView
+     * 
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    void updateAccount(ActionEvent event) throws IOException { /*  
-                                                                   this grabs all the info from the update page and 
-                                                                   then reloads the profilein order to reflect the 
-                                                                   updated info. 
-                                                                */
+    void updateAccount(ActionEvent event) throws IOException { 
         Usermodel user = new Usermodel();
         
         String id = updateID.getText();
@@ -111,8 +125,7 @@ public class UpdateAccountController implements Initializable {
         user.setAge(userAge);
         
     //------------------Refresh and Update Profile------------------  
-    
-    
+ 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileView.fxml"));
 
         Parent profileView = loader.load();
@@ -132,41 +145,65 @@ public class UpdateAccountController implements Initializable {
         updateInfo.close();
         
         update(user);
-        
     }
-    private void orginalState(ActionEvent event) throws IOException { // this is the OG info if the user wishes to cancel or go back
-        
+   
+    /**
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void cancel(ActionEvent event) throws IOException {
+
+        Stage updateAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        updateAccount.close();
+
+        orginalState(event);
+
+    }
+    
+    /**********************************Helper Methods***********************************/
+    
+    /**
+     * This is the OG info if the user wishes to cancel or go back
+     * 
+     * @param event
+     * @throws IOException
+     */
+    private void orginalState(ActionEvent event) throws IOException { 
+
         String id = updateID.getText();
         int userID = Integer.parseInt(id);
-        
+
         Query query = manager.createNamedQuery("Usermodel.findById");
-            
+
         query.setParameter("id", userID);
-        
+
         Usermodel user = (Usermodel) query.getSingleResult();
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ProfileView.fxml"));
 
         Parent detailedModelView = loader.load();
 
         Scene tableViewScene = new Scene(detailedModelView);
-            
+
         ProfileViewController profileControllerView = loader.getController();
-           
+
         profileControllerView.initData(user);
 
-            Stage stage = new Stage();
-            stage.setScene(tableViewScene);
-            
-            stage.show();
-            
+        Stage stage = new Stage();
+        stage.setScene(tableViewScene);
+
+        stage.show();
+
     }
-    
-      public void update(Usermodel model) {                     /*  
-                                                                   this updates all the info and sends it do the db 
-                                                                   since the profile page is reloaded it shows the 
-                                                                   updated info. 
-                                                                */
+
+    /**
+     * Updates info/sends to DB and reloads ProfileView 
+     *
+     * @param model 
+     */
+    public void update(Usermodel model) {
         try {
 
             Usermodel existingUser = manager.find(Usermodel.class, model.getId());
@@ -179,51 +216,13 @@ public class UpdateAccountController implements Initializable {
                 existingUser.setHeight(model.getHeight());
                 existingUser.setWeight(model.getWeight());
                 existingUser.setAge(model.getAge());
-                
+
                 // end transaction
                 manager.getTransaction().commit();
-                
+
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
     }
-
-    @FXML
-    void cancel(ActionEvent event) throws IOException {
-        
-        Stage updateAccount = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        updateAccount.close();  
-        
-        orginalState(event);
-      
-    }
-    
-    public void initData(Usermodel user) {
-
-        updateID.setText("" + user.getId());
-        nameField.setText(user.getName());
-        heightField.setText(user.getHeight());
-        weightField.setText("" +user.getWeight());
-        ageField.setText("" + user.getAge());
-
-    }
-    
-    /**
-     * Initializes the controller class.
-     */
-        @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-        manager = (EntityManager) Persistence.createEntityManagerFactory("WeightLossAppFXMLPU").createEntityManager();
-
-        assert nameField != null : "fx:id=\"nameField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert heightField != null : "fx:id=\"heightField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert weightField != null : "fx:id=\"weightField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert ageField != null : "fx:id=\"ageField\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert updateAccount != null : "fx:id=\"createAccount\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-        assert cancel != null : "fx:id=\"cancel\" was not injected: check your FXML file 'UpdateInfoView.fxml'.";
-
-    }    
 }
