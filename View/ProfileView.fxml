@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProfileViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProfileViewController">
    <children>
       <TextField fx:id="nameBox" editable="false" layoutX="133.0" layoutY="169.0" onAction="#nameBox" prefHeight="44.0" prefWidth="240.0">
          <font>
@@ -88,9 +88,8 @@
       </TextField>
       <TableView fx:id="logsTable" layoutX="399.0" layoutY="72.0" prefHeight="200.0" prefWidth="398.0">
         <columns>
-          <TableColumn fx:id="logID" prefWidth="54.0" text="ID" />
-          <TableColumn fx:id="logDate" prefWidth="99.0" text="Date" />
-            <TableColumn fx:id="logPreview" prefWidth="244.0" text="Log Preview" />
+          <TableColumn fx:id="logDate" prefWidth="118.0" text="Date" />
+            <TableColumn fx:id="logPreview" prefWidth="279.0" text="Log Preview" />
         </columns>
       </TableView>
       <Button fx:id="viewLogButton" layoutX="815.0" layoutY="188.0" mnemonicParsing="false" onAction="#viewLog" text="View" />
