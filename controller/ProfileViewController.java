@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Model.Goalmodel;
 import Model.Logmodel;
 import Model.Usermodel;
 import java.io.IOException;
@@ -85,6 +86,23 @@ public class ProfileViewController implements Initializable {
         
     private ObservableList<Logmodel> logData;
     
+    private ObservableList<Goalmodel> goalData;
+    
+    @FXML
+    private Button viewGoalButton;
+
+    @FXML
+    private Button createGoalButton;
+
+    @FXML
+    private TableView<Goalmodel> goalsTable;
+
+    @FXML
+    private TableColumn<Goalmodel, String> goalDate;
+
+    @FXML
+    private TableColumn<Goalmodel, String> goalDescription;
+    
     EntityManager manager;
 
     Scene previousScene;
@@ -102,12 +120,16 @@ public class ProfileViewController implements Initializable {
         //Set the cell values for the 'Collection of Logs' Table
         logDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
         logPreview.setCellValueFactory(new PropertyValueFactory<>("Content"));
-        logsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);       
+        logsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);   
+        
+        //Set the cell values for the 'Collection of Goals' Table
+        goalDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        goalDescription.setCellValueFactory(new PropertyValueFactory<>("Content"));
+        goalsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                 
         assert nameBox != null : "fx:id=\"nameBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert heightBox != null : "fx:id=\"heightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert weightBox != null : "fx:id=\"weightBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
-        assert goalsBox != null : "fx:id=\"goalsBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert ageBox != null : "fx:id=\"ageBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert bmiBox != null : "fx:id=\"bmiBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert bmiStatus != null : "fx:id=\"bmiStatus\" was not injected: check your FXML file 'ProfileView.fxml'.";
@@ -120,6 +142,12 @@ public class ProfileViewController implements Initializable {
         assert idBox != null : "fx:id=\"idBox\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert logOut != null : "fx:id=\"logOut\" was not injected: check your FXML file 'ProfileView.fxml'.";
         assert quit != null : "fx:id=\"quit\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert viewGoalButton != null : "fx:id=\"viewGoalButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert createGoalButton != null : "fx:id=\"createGoalButton\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert goalsTable != null : "fx:id=\"goalsTable\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert goalDate != null : "fx:id=\"goalDate\" was not injected: check your FXML file 'ProfileView.fxml'.";
+        assert goalDescription != null : "fx:id=\"goalDescription\" was not injected: check your FXML file 'ProfileView.fxml'.";
+
     }
     
     /**
@@ -280,6 +308,60 @@ public class ProfileViewController implements Initializable {
             alert.showAndWait();
         }       
     }
+    
+    @FXML
+    void createGoal(ActionEvent event) {
+            Usermodel user = userQuery();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CreateGoalView.fxml"));
+            Parent createGoalView = loader.load();
+
+            Scene createLogScene = new Scene(createGoalView);
+
+            CreateGoalViewController controller = loader.getController();
+            controller.initData(user);
+            
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            controller.setPreviousScene(currentScene);
+
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(createLogScene);
+            stage.show();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    @FXML
+    void viewGoal(ActionEvent event) throws IOException {
+        Goalmodel selectedGoal = goalsTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedGoal);
+
+        if (selectedGoal != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/GoalView.fxml"));
+            Parent goalView = loader.load();
+
+            Scene goalViewScene = new Scene(goalView);
+
+            GoalViewController controller = loader.getController();
+            controller.initData(selectedGoal);
+            
+            Scene currentScene = ((Node) event.getSource()).getScene();
+            controller.setPreviousScene(currentScene);
+
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(goalViewScene);
+            stage.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog Box");
+            alert.setHeaderText("No log selected.");
+            alert.setContentText("Please select a log you would like to view.");
+            alert.showAndWait();
+        }  
+    }
+    
+    
 
     /**********************************Helper Methods***********************************/
 
@@ -324,10 +406,10 @@ public class ProfileViewController implements Initializable {
         }
     }
 
-   /**
-    * 
-    * @param bmi 
-    */
+     /**
+      * 
+      * @param bmi 
+      */
     public void getBMICategory(Double bmi) {
 
         if (bmi <= 18.5) {
@@ -341,13 +423,17 @@ public class ProfileViewController implements Initializable {
         }
     }    
 
-   /**
-    * 
-    */
+    /**
+     * 
+     */
     public void refreshTable() {
         Integer userId = Integer.parseInt(idBox.getText());
         List<Logmodel> logs = readLogByUserId(userId);
         setTableData(logs);
+        
+        Integer userGoalId = Integer.parseInt(idBox.getText());
+        List<Goalmodel> goals = readGoalByUserId(userGoalId);
+        setGoalTableData(goals);
     }
     
     /**
@@ -364,6 +450,16 @@ public class ProfileViewController implements Initializable {
         logsTable.setItems(logData);
         logsTable.refresh();
     }
+    private void setGoalTableData(List<Goalmodel> goalList) {
+        goalData = FXCollections.observableArrayList();
+
+        goalList.forEach(s -> {
+            goalData.add(s);
+        });
+
+        goalsTable.setItems(goalData);
+        goalsTable.refresh();
+    }
 
     /**
      * 
@@ -376,6 +472,14 @@ public class ProfileViewController implements Initializable {
         List<Logmodel> logs = query.getResultList();
 
         return logs;
+    }
+    
+    private List<Goalmodel> readGoalByUserId(Integer id){
+        Query query = manager.createNamedQuery("Goalmodel.findByUserid");
+        query.setParameter("userID", id);
+        List<Goalmodel> goals = query.getResultList();
+
+        return goals;
     }
     
     /**
