@@ -64,7 +64,7 @@ public class LogInViewController implements Initializable {
      */
     @FXML
     void createAccount(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/DetailedModelView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/CreateAccountView.fxml"));
 
         Parent detailedModelView = loader.load();
 
@@ -76,7 +76,7 @@ public class LogInViewController implements Initializable {
         stage.show();
 
         //--------------------Go back----------------------------
-        DetailedModelViewController detailedControlled = loader.getController();
+        CreateAccountViewController detailedControlled = loader.getController();
 
         Scene currentScene = ((Node) event.getSource()).getScene();
         Stage login = (Stage) ((Node) event.getSource()).getScene().getWindow();
