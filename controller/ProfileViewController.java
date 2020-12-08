@@ -197,13 +197,13 @@ public class ProfileViewController implements Initializable {
         user.setAge(userAge);
 
         //------------------Close the profile page and update account------------------  
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/UpdateInfoView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/UpdateAccountView.fxml"));
 
         Parent profileView = loader.load();
 
         Scene newScene = new Scene(profileView);
 
-        UpdateAccountController updateAccount = loader.getController();
+        UpdateAccountViewController updateAccount = loader.getController();
 
         updateAccount.initData(user);
 
@@ -500,43 +500,6 @@ public class ProfileViewController implements Initializable {
      */
     public void setPreviousScene(Scene scene) {
         previousScene = scene;
-    }
-    
-    /************************Apparently We Need These**********************************/
-    
-    @FXML
-    void ageBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void bmiBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void bmiStatus(ActionEvent event) {
-
-    }
-
-    @FXML
-    void heightBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void idBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void nameBox(ActionEvent event) {
-
-    }
-  
-    @FXML
-    void weightBox(ActionEvent event) {
-
     }
     
 }
