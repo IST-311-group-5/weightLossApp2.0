@@ -11,17 +11,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="919.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ProfileViewController">
    <children>
-      <TextField fx:id="nameBox" editable="false" layoutX="133.0" layoutY="169.0" onAction="#nameBox" prefHeight="44.0" prefWidth="240.0">
+      <TextField fx:id="nameBox" editable="false" layoutX="133.0" layoutY="169.0" prefHeight="44.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="heightBox" editable="false" layoutX="133.0" layoutY="213.0" onAction="#heightBox" prefHeight="27.0" prefWidth="240.0">
+      <TextField fx:id="heightBox" editable="false" layoutX="133.0" layoutY="213.0" prefHeight="27.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="weightBox" editable="false" layoutX="133.0" layoutY="253.0" onAction="#weightBox" prefHeight="45.0" prefWidth="240.0">
+      <TextField fx:id="weightBox" editable="false" layoutX="133.0" layoutY="253.0" prefHeight="45.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -42,17 +42,17 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <TextField fx:id="ageBox" editable="false" layoutX="133.0" layoutY="298.0" onAction="#ageBox" prefHeight="45.0" prefWidth="240.0">
+      <TextField fx:id="ageBox" editable="false" layoutX="133.0" layoutY="298.0" prefHeight="45.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="bmiBox" editable="false" layoutX="133.0" layoutY="339.0" onAction="#bmiBox" prefHeight="45.0" prefWidth="240.0">
+      <TextField fx:id="bmiBox" editable="false" layoutX="133.0" layoutY="339.0" prefHeight="45.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <TextField fx:id="bmiStatus" editable="false" layoutX="133.0" layoutY="384.0" onAction="#bmiStatus" prefHeight="45.0" prefWidth="240.0">
+      <TextField fx:id="bmiStatus" editable="false" layoutX="133.0" layoutY="384.0" prefHeight="45.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -96,7 +96,7 @@
          </font>
       </Text>
       <Button fx:id="updateInfo" layoutX="14.0" layoutY="442.0" mnemonicParsing="false" onAction="#updateInfo" text="Update Info" />
-      <TextField fx:id="idBox" editable="false" layoutX="133.0" layoutY="125.0" onAction="#idBox" prefHeight="44.0" prefWidth="240.0">
+      <TextField fx:id="idBox" editable="false" layoutX="133.0" layoutY="125.0" prefHeight="44.0" prefWidth="240.0">
          <font>
             <Font size="20.0" />
          </font>
