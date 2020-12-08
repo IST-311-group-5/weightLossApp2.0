@@ -25,8 +25,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Goalmodel.findAll", query = "SELECT g FROM Goalmodel g")
     , @NamedQuery(name = "Goalmodel.findById", query = "SELECT g FROM Goalmodel g WHERE g.id = :id")
-    , @NamedQuery(name = "Goalmodel.findByMealrecommendations", query = "SELECT g FROM Goalmodel g WHERE g.mealrecommendations = :mealrecommendations")
-    , @NamedQuery(name = "Goalmodel.findByWorkoutrecommendations", query = "SELECT g FROM Goalmodel g WHERE g.workoutrecommendations = :workoutrecommendations")})
+    , @NamedQuery(name = "Goalmodel.findByDate", query = "SELECT g FROM Goalmodel g WHERE g.date = :date")
+    , @NamedQuery(name = "Goalmodel.findByContent", query = "SELECT g FROM Goalmodel g WHERE g.content = :content")
+    , @NamedQuery(name = "Goalmodel.findByUserid", query = "SELECT g FROM Goalmodel g WHERE g.userID = :userID")
+    , @NamedQuery(name = "Goalmodel.countEntries", query = "SELECT COUNT(numGoals) FROM Goalmodel numGoals")})
+
+
 public class Goalmodel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,11 +38,15 @@ public class Goalmodel implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
-    @Column(name = "MEALRECOMMENDATIONS")
-    private String mealrecommendations;
-    @Column(name = "WORKOUTRECOMMENDATIONS")
-    private String workoutrecommendations;
-
+    @Basic(optional = false)
+    @Column(name = "DATE")
+    private String date;
+    @Basic(optional = false)
+    @Column(name = "CONTENT")
+    private String content;
+    @Column(name = "USERID")
+    private Integer userID;
+    
     public Goalmodel() {
     }
 
@@ -54,22 +62,32 @@ public class Goalmodel implements Serializable {
         this.id = id;
     }
 
-    public String getMealrecommendations() {
-        return mealrecommendations;
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+    
+    public String getDate() {
+        return date;
     }
 
-    public void setMealrecommendations(String mealrecommendations) {
-        this.mealrecommendations = mealrecommendations;
-    }
 
-    public String getWorkoutrecommendations() {
-        return workoutrecommendations;
+    public Integer getUserId() {
+        return userID;
     }
-
-    public void setWorkoutrecommendations(String workoutrecommendations) {
-        this.workoutrecommendations = workoutrecommendations;
+    
+    public void setUserId(Integer userID) {
+        this.userID = userID;
     }
-
+    
+    public String getContent() {
+        return content;
+    }
+    
+    public void setContent(String content) {
+        this.content = content;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
