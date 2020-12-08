@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-public class DetailedModelViewController implements Initializable {
+public class CreateAccountViewController implements Initializable {
 
     @FXML
     private TextField idField;
