@@ -23,7 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-public class UpdateAccountController implements Initializable {
+public class UpdateAccountViewController implements Initializable {
     @FXML
     private TextField updateID;
     
@@ -199,11 +199,15 @@ public class UpdateAccountController implements Initializable {
     }
 
     /**
-     * Updates info/sends to DB and reloads ProfileView 
-     *
+     * 
      * @param model 
      */
     public void update(Usermodel model) {
+        /*  
+                                                                   this updates all the info and sends it do the db 
+                                                                   since the profile page is reloaded it shows the 
+                                                                   updated info. 
+         */
         try {
 
             Usermodel existingUser = manager.find(Usermodel.class, model.getId());
