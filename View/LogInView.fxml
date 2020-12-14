@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LogInViewController">
    <children>
-      <Text layoutX="21.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weightloss/Fitness Tracker">
+      <Text layoutX="72.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight Loss App">
          <font>
             <Font size="24.0" />
          </font>
