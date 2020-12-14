@@ -16,19 +16,19 @@
       </Text>
       <Text layoutX="125.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" />
       <Text layoutX="80.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Goal Content:" />
-      <TextField fx:id="goalDateField" layoutX="161.0" layoutY="179.0" prefHeight="26.0" prefWidth="314.0" />
+      <TextField fx:id="goalDateField" editable="false" layoutX="161.0" layoutY="179.0" prefHeight="26.0" prefWidth="314.0" />
       <Text layoutX="389.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" />
       <Text layoutX="433.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" />
-      <TextField fx:id="nameTextBox" layoutX="455.0" layoutY="20.0" />
-      <TextField fx:id="idTextBox" layoutX="455.0" layoutY="66.0" />
-      <Text layoutX="270.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Goal Entry">
+      <TextField fx:id="nameTextBox" editable="false" layoutX="455.0" layoutY="20.0" />
+      <TextField fx:id="idTextBox" editable="false" layoutX="455.0" layoutY="66.0" />
+      <Text layoutX="255.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Goal Entry">
          <font>
-            <Font size="22.0" />
+            <Font size="30.0" />
          </font>
       </Text>
       <Button fx:id="cancelGoalButton" layoutX="447.0" layoutY="521.0" mnemonicParsing="false" onAction="#cancelGoal" text="Cancel" />
       <Button fx:id="editGoalButton" layoutX="516.0" layoutY="521.0" mnemonicParsing="false" onAction="#editGoal" text="Edit" />
       <Button fx:id="deleteGoalButton" layoutX="570.0" layoutY="521.0" mnemonicParsing="false" onAction="#deleteGoal" text="Delete" />
-      <TextArea fx:id="goalContentField" layoutX="161.0" layoutY="219.0" prefHeight="293.0" prefWidth="314.0" />
+      <TextArea fx:id="goalContentField" editable="false" layoutX="161.0" layoutY="219.0" prefHeight="293.0" prefWidth="314.0" />
    </children>
 </AnchorPane>
