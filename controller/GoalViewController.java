@@ -57,7 +57,7 @@ import javax.persistence.Query;
         
     EntityManager manager;
    
-    private Integer logId;
+    private Integer goalID;
     
     Scene previousScene;
 
@@ -81,7 +81,7 @@ import javax.persistence.Query;
 
     /**
      * 
-     * @param log 
+     * @param Goal 
      */
     public void initData(Goalmodel goal) {
         Query query = manager.createNamedQuery("Usermodel.findById");
@@ -93,7 +93,7 @@ import javax.persistence.Query;
         goalDateField.setText(goal.getDate());
         goalContentField.setText(goal.getContent());
         
-        logId = goal.getId();
+        goalID = goal.getId();
     }
     
     /********************************Button Operations********************************/
@@ -174,7 +174,7 @@ import javax.persistence.Query;
     
     /**
      * 
-     * @param log 
+     * @param Goal 
      */
     private void delete(Goalmodel goal) {
         try {
@@ -192,10 +192,10 @@ import javax.persistence.Query;
      */
     private Goalmodel goalQuery() {
         Query query = manager.createNamedQuery("Goalmodel.findById");
-        query.setParameter("id", logId);
-        Goalmodel log = (Goalmodel) query.getSingleResult();
+        query.setParameter("id", goalID);
+        Goalmodel goal = (Goalmodel) query.getSingleResult();
 
-        return log;
+        return goal;
     }
 
     /**
